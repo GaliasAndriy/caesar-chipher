@@ -20,9 +20,6 @@ function encryptionCaesarCipher(message, shift) {
       result += char;
     }
 
-    const i = 65;
-
-    
     return result;
 }
 
@@ -59,7 +56,7 @@ function encryptFile(fileName, shift) {
 
     shift = parseInt(data[0]);
 
-    if (isNaN(shift) || shift > 25 || shift < -25) {
+    if (isNaN(shift) || shift > 26 || shift < -26) {
       throw new Error('Invalid shift value. It should be between -25 and 25.');
     }
     
