@@ -23,6 +23,62 @@ function encryptionCaesarCipher(message, shift) {
     return result;
 }
 
+function afineCipher(message, a, b) {
+  let result = '';
+  
+  for (let i = 0; i < message.length; i++) {
+    let char = message[i];
+    
+    
+    // Encryption only for upper/lowercase letters of alphabet 
+    if (char.match(/[a-z]/i)) {
+      const code = message.charCodeAt(i);
+      
+      if (code >= 65 && code <= 90) {
+        char = String.fromCharCode((((code - 65) * a + b) % 26) + 65);
+      } else if (code >= 97 && code <= 122) {
+        char = String.fromCharCode((((code - 97) * a + b) % 26) + 97);
+      }
+    }
+    
+    result += char;
+  }
+
+  return result;
+}
+
+function decryptAfineCipher(message, a, b) {
+  let result = '';
+  
+  let aInverse = 0;
+  for (let i = 1; i < 26; i++) {
+    if ((a * i) % 26 === 1) {
+      aInverse = i;
+      break;
+    }
+  }
+
+  console.log("a Inverse: ", aInverse);
+  for (let i = 0; i < message.length; i++) {
+    let char = message[i];
+    
+    if (char.match(/[a-z]/i)) {
+      const code = message.charCodeAt(i);
+      
+      if (code >= 65 && code <= 90) {
+        char = String.fromCharCode((((code - 65 - b + 26) * aInverse) % 26) + 65);
+      } else if (code >= 97 && code <= 122) {
+        char = String.fromCharCode((((code - 97 - b + 26) * aInverse) % 26) + 97);
+      }
+    }
+    
+    result += char;
+  }
+
+  return result;
+}
+
+
 // All whitespaces, signs of punctoation etc. left as it is 
 
 function decryptionCaesarCipher(message, shift) {
@@ -90,4 +146,6 @@ module.exports = {
   decryptionCaesarCipher,
   encryptFile,
   decryptFile,
+  afineCipher,
+  decryptAfineCipher,
 };
